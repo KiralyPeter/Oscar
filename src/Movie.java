@@ -3,17 +3,17 @@ public class Movie {
     private String id;
     private String title;
     private String year;
-    private Integer oscarAwards;
-    private Integer oscarNominated;
+    private String oscarAwards;
+    private String oscarNominated;
 
     
     // public Movie(String id, String title, String year, int oscarAwards, int oscarNominated) {
     public Movie() {
-        this.id = "";
-        this.title = "";
-        this.year = "";
-        this.oscarAwards = null;
-        this.oscarNominated = null;
+        id = "";
+        title = "";
+        year = "";
+        oscarAwards = null;
+        oscarNominated = null;
     }
 
     public String getId() {
@@ -40,26 +40,26 @@ public class Movie {
         this.year = year;
     }
 
-    public int getOscarAwards() {
+    public String getOscarAwards() {
         return oscarAwards;
     }
 
-    public void setOscarAwards(int oscarAwards) {
+    public void setOscarAwards(String oscarAwards) {
         this.oscarAwards = oscarAwards;
     }
 
-    public int getOscarNominated() {
+    public String getOscarNominated() {
         return oscarNominated;
     }
 
-    public void setOscarNominated(int oscarNominated) {
+    public void setOscarNominated(String oscarNominated) {
         this.oscarNominated = oscarNominated;
     }
 
-    @Override
-    public String toString() {
-        return "Filmek{" + "id=" + id + ", Cím=" + title + ", Év=" + year + ", Oscar jelölések= " + oscarNominated + ", Elynert Oscar díjak=" + oscarAwards +"}";
-    }
+    // @Override
+    // public String toString() {
+    //     return "Filmek{" + "id=" + id + ", Cím=" + title + ", Év=" + year + ", Oscar jelölések= " + oscarNominated + ", Elynert Oscar díjak=" + oscarAwards +"}";
+    // }
 
     
 }
