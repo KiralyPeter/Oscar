@@ -35,29 +35,19 @@ public class FReader {
             String record = scanner.nextLine();
             
             // for devtest...
-            System.out.println(record);
+            // System.out.println(record);
 
-            String[] recordSp = record.split(";");
+            String[] recordSp = record.split(";");           
             
-            // Movie(String id, 
-            // String title, 
-            // String year, 
-            // int oscarAwards, 
-            // int oscarNominated)
 
             Movie movie = new Movie();
 
-            movie.setId(recordSp[0]);
-            System.out.println(movie.getId());
-            movie.setTitle(recordSp[1]);
-            System.out.println(movie.getTitle());
-            movie.setYear(recordSp[2]);
-            System.out.println(movie.getYear());
-            movie.setOscarAwards(recordSp[3]);
-            System.out.println(movie.getOscarAwards());
+            movie.setId(recordSp[0]);            
+            movie.setTitle(recordSp[1]);            
+            movie.setYear(recordSp[2]);            
+            movie.setOscarAwards(recordSp[3]);            
             movie.setOscarNominated(recordSp[4]);
-            System.out.println(movie.getOscarNominated());
-
+            
             movieList.add(movie);
         }
 
