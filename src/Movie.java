@@ -56,10 +56,11 @@ public class Movie {
         this.oscarNominated = oscarNominated;
     }
 
-    // @Override
-    // public String toString() {
-    //     return "Filmek{" + "id=" + id + ", Cím=" + title + ", Év=" + year + ", Oscar jelölések= " + oscarNominated + ", Elynert Oscar díjak=" + oscarAwards +"}";
-    // }
+    @Override
+    public String toString() {
+        // return "Filmek{" + "id=" + id + ", Cím=" + title + ", Év=" + year + ", Oscar jelölések= " + oscarNominated + ", Elynert Oscar díjak=" + oscarAwards +"}";
+        return id + ", " + title + ", " + year + ", " + oscarNominated + ", " + oscarAwards ;
+    }
 
     
 }
