@@ -9,49 +9,45 @@ public class DataBase {
     private String database;
     private String user;
     private String password;
-    private Connection kapcsolat;
+    private Connection connection;
 
-    public DataBase(String url, String database, String user, String password) {
+public DataBase(String url, String database, String user, String password) {
        
         this.url = url;
         this.database = database;
         this.user = user;
         this.password = password;
-        this.kapcsolat = null;
+        this.connection = null;
     
     try {    
-        Class.forName("org.mariadb.jdbc.Driver");
+        Class.forName("org.mariadb.jdbc.Driver");        
     } catch (ClassNotFoundException ex) {
-        System.out.println("Baj van! Nem találom a driver-t!"+ ex);
+        System.out.println("Nem találom a driver-t!"+ ex);
         
 
     }
     
     try { 
-        this.kapcsolat = DriverManager.getConnection(url+database, user, password);
+        this.connection = DriverManager.getConnection(url+database, user, password);
 
     } catch (SQLException ex) {
-        System.out.println("Baj van! Hiba az adatbázis csatlakozásnban!"+ ex);
+        System.out.println("Hiba az adatbázis csatlakozásnban!"+ ex);
     }
     
-    if (kapcsolat !=null)
+    if (connection !=null)
     {
         System.out.println("Sikeresen kapcsolódtunk");
     }
-}
-
-public void createTable(String tableName, String column1, String col){
-
 }
 
 public void createTable(){
 
     Statement createStatement = null;        
     ResultSet rs= null;
-    String sql="CREATE TABLE `oscar`.`teszt` (`ID` INT NOT NULL AUTO_INCREMENT , `Name` TEXT NOT NULL , PRIMARY KEY (`ID`)) ENGINE = InnoDB;";
+    String sql="CREATE TABLE `oscar`.`filmek` (`id` INT NOT NULL AUTO_INCREMENT , `azon` CHAR(6) NOT NULL , `cim` VARCHAR(1024) NOT NULL , `ev` INT NOT NULL , `dij` INT NOT NULL , `jelol` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB";
 
     try {
-        createStatement = kapcsolat.createStatement();
+        createStatement = connection.createStatement();
     } catch (SQLException ex) {
        System.out.println("Baj van! Hiba a Statement létrehozásában!"+ ex);
     }
@@ -69,14 +65,14 @@ public void createTable(){
 
 public void showAll()
     {
-        if (kapcsolat!= null)
+        if (connection!= null)
         {
             Statement createStatement = null;        
             ResultSet rs= null;
-            String sql="select * from teszt";
+            String sql="select * from filmek";
 
             try {
-                createStatement = kapcsolat.createStatement();
+                createStatement = connection.createStatement();
             } catch (SQLException ex) {
                System.out.println("Baj van! Hiba a Statement létrehozásában!"+ ex);
             }
@@ -87,9 +83,47 @@ public void showAll()
                     rs=createStatement.executeQuery(sql);
                     
                     while(rs.next())
+                    // "azon";"cim";"ev";"dij";"jelol"
                     {
-                        System.out.println(rs.getInt("ID")+" | "
-                                +rs.getString("Name"));
+                        System.out.println(rs.getInt("id")+" | "
+                                +rs.getString("azon")+" | "
+                                +rs.getString("cim")+" | "
+                                +rs.getString("ev")+" | "
+                                +rs.getString("dij")+" | "
+                                +rs.getString("jelol")                                
+                                );
+                    }
+                    
+                } catch (SQLException ex) {
+                   System.out.println("Baj van! Hiba a Query futtatásánál!"+ ex);
+                }
+            }
+        }
+    }
+
+public void showTables()
+    {
+        if (connection!= null)
+        {
+            Statement createStatement = null;        
+            ResultSet rs= null;
+            String sql="SHOW TABLES FROM oscar";
+
+            try {
+                createStatement = connection.createStatement();
+            } catch (SQLException ex) {
+               System.out.println("Baj van! Hiba a Statement létrehozásában!"+ ex);
+            }
+            
+            if (createStatement!=null)
+            {
+                try {
+                    rs=createStatement.executeQuery(sql);
+                    
+                    while(rs.next())
+                    
+                    {
+                        System.out.println(rs.getString("tables_in_oscar"));
                     }
                     
                 } catch (SQLException ex) {
@@ -101,14 +135,14 @@ public void showAll()
 
 // public void addItem(String id, String name){    
 public void addItem(String movie){    
-    if (kapcsolat!= null)
+    if (connection!= null)
         {
             Statement createStatement = null;        
             // String sql="insert into 'filmek' values(null,'"+movie+"');";
             String sql="insert into filmek values(null, " + movie + ");";
 
             try {
-                createStatement = kapcsolat.createStatement();
+                createStatement = connection.createStatement();
             } catch (SQLException ex) {
                 System.out.println("Baj van! Hiba a Statement létrehozásában!"+ ex);
             }
@@ -125,120 +159,91 @@ public void addItem(String movie){
         }
     }
 
-public void isDBExist(){
+public boolean isDBExist(String databaseName){
 
-    Connection con = null;
-		ResultSet rs = null;
+    boolean exists = false;
+    String database = databaseName;
 
-		
-		try{
+    if (connection!= null)
+    {
+        Statement createStatement = null;        
+        ResultSet rs= null;
+        String sql="SHOW DATABASES";
 
-			Class.forName("org.mariadb.jdbc.Driver");
+        try {
+            createStatement = connection.createStatement();
+        } catch (SQLException ex) {
+           System.out.println("Hiba a Statement létrehozásában!"+ ex);
+        }
+        
+        if (createStatement!=null){
+            try {
+                rs=createStatement.executeQuery(sql);
 
-			con = DriverManager.getConnection(url, user, password);
-			
-			String dbName = "oscar";
+                
+                
+                while(rs.next())
+                // "azon";"cim";"ev";"dij";"jelol"
+                {
+                    if(rs.getString(1).equals(databaseName)){
+                        System.out.println("A "+ databaseName + "adatbázis létezik");
+                        exists = true;
+                    } 
 
-			if(con != null){
-				
-				System.out.println("check if a database exists using java");
-
-				rs = con.getMetaData().getCatalogs();
-
-				while(rs.next()){
-					String catalogs = rs.getString(1);
-					
-					if(dbName.equals(catalogs)){
-						System.out.println("the database "+dbName+" exists");
-					}
-				}
-
-			}
-			else{
-				System.out.println("unable to create database connection");
-			}
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
-		finally{
-			if( rs != null){
-				try{
-				    rs.close();
-				}
-				catch(SQLException ex){
-					ex.printStackTrace();
-				}
-			}
-			if( con != null){
-				try{
-				    con.close();
-				}
-				catch(SQLException ex){
-					ex.printStackTrace();
-				}
-			}
-		}
-
+                    System.out.println(rs.getString(1));
+                }
+                
+            } catch (SQLException ex) {
+               System.out.println("Hiba a Query futtatásánál!"+ ex);
+            }
+        }
+    }
+    return exists;
 
 }
 
 
-public void isTableExist(){
+public boolean isTableExist(String table){
+    
+    boolean exists = false;
+    String tableName = table;
 
-    Connection con = null;
-	ResultSet rs = null;
+    if (connection!= null)
+    {
+        Statement createStatement = null;        
+        ResultSet rs= null;
+        String sql="SHOW TABLES FROM oscar";
 
-		
-		try{
+        try {
+            createStatement = connection.createStatement();
+        } catch (SQLException ex) {
+           System.out.println("Hiba a Statement létrehozásában!"+ ex);
+        }
+        
+        if (createStatement!=null){
+            try {
+                rs=createStatement.executeQuery(sql);
 
-			Class.forName("org.mariadb.jdbc.Driver");
+                
+                
+                while(rs.next())
+                // "azon";"cim";"ev";"dij";"jelol"
+                {
+                    if(rs.getString(1).equals(tableName)){
+                        System.out.println("A "+ tableName + "tábla létezik");
+                        exists = true;
+                    } 
 
-			con = DriverManager.getConnection(url, user, password);
-			
-			String dbName = "oscar";
-
-			if(con != null){
-				
-				System.out.println("check if a databaseTable exists using java");
-
-				rs = con.getMetaData().getTables(null, null, "teszt", null);
-
-				while(rs.next()){
-					String catalogs = rs.getString(1);
-					
-					if(dbName.equals(catalogs)){
-						System.out.println("the database table "+dbName+" exists");
-					}
-				}
-
-			}
-			else{
-				System.out.println("unable to create database connection");
-			}
-		}
-		catch(Exception ex){
-			ex.printStackTrace();
-		}
-		finally{
-			if( rs != null){
-				try{
-				    rs.close();
-				}
-				catch(SQLException ex){
-					ex.printStackTrace();
-				}
-			}
-			if( con != null){
-				try{
-				    con.close();
-				}
-				catch(SQLException ex){
-					ex.printStackTrace();
-				}
-			}
-		}
-
-
+                    System.out.println(rs.getString(1));
+                }
+                
+            } catch (SQLException ex) {
+               System.out.println("Hiba a Query futtatásánál!"+ ex);
+            }
+        }
+    }
+    return exists;
 }
+
+
 }
