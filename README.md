@@ -11,7 +11,7 @@ A program futtatása:
 
 <code> java -jar Oscar.jar <forrás fáj> <-f vagy --f kapcsoló></code>
 
-Például:\
-<code>
-java -jar Oscar.jar filmek.txt\
-java -jar Oscar.jar filmek.txt -f
+Például:
+
+<code>java -jar Oscar.jar filmek.txt</code>\
+<code>java -jar Oscar.jar filmek.txt -f</code>
