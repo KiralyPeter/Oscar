@@ -1,3 +1,13 @@
+/*
+* File: FReader.java
+* Author: Király Péter
+* Copyright: 2023, Király Péter
+* Group: Szoft 1/2/E
+* Date: 2023-05-13
+* Github: https://github.com/KiralyPeter/Oscar.git
+* Licenc: GNU GPL
+*/
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
@@ -24,7 +34,7 @@ public class FReader {
             
             // Ha nem sikerül a fájlt átadni, akkor a kivétel kezelve van...
             } catch ( FileNotFoundException ex ) {
-                System.out.println( "Nincs meg a fájl" );
+                System.out.println( "Hiba, nincs meg a fájl" );
                 ex.printStackTrace();
             }
 

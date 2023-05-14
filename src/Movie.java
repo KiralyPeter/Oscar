@@ -1,3 +1,13 @@
+/*
+* File: Movie.java
+* Author: Király Péter
+* Copyright: 2023, Király Péter
+* Group: Szoft 1/2/E
+* Date: 2023-05-13
+* Github: https://github.com/KiralyPeter/Oscar.git
+* Licenc: GNU GPL
+*/
+
 public class Movie {
     
     private String id;

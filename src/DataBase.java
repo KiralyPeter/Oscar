@@ -1,3 +1,13 @@
+/*
+* File: DataBase.java
+* Author: Király Péter
+* Copyright: 2023, Király Péter
+* Group: Szoft 1/2/E
+* Date: 2023-05-13
+* Github: https://github.com/KiralyPeter/Oscar.git
+* Licenc: GNU GPL
+*/
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -36,7 +46,7 @@ public DataBase(String url, String database, String user, String password) {
     
     if (connection !=null)
     {
-        System.out.println("Sikeresen kapcsolódtunk");
+        System.out.println("Sikeresen kapcsolódtunk az adatbázishoz");
     }
 }
 
@@ -44,12 +54,35 @@ public void createTable(){
 
     Statement createStatement = null;        
     ResultSet rs= null;
-    String sql="CREATE TABLE `oscar`.`filmek` (`id` INT NOT NULL AUTO_INCREMENT , `azon` CHAR(6) NOT NULL , `cim` VARCHAR(1024) NOT NULL , `ev` INT NOT NULL , `dij` INT NOT NULL , `jelol` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB";
+    String sql="CREATE TABLE `oscar`.`filmek` (`id` INT NOT NULL AUTO_INCREMENT , `azon` CHAR(6) NOT NULL , `cim` VARCHAR(1024) NOT NULL , `ev` INT NOT NULL , `dij` INT NOT NULL , `jelol` INT NOT NULL , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
 
     try {
         createStatement = connection.createStatement();
     } catch (SQLException ex) {
-       System.out.println("Baj van! Hiba a Statement létrehozásában!"+ ex);
+       System.out.println("Hiba a Statement létrehozásában!"+ ex);
+    }
+
+    if (createStatement!=null)
+    {
+        try {
+            createStatement.execute(sql);                    
+                                
+        } catch (SQLException ex) {
+            System.out.println("Hiba a Create-nél!"+ ex);
+        }
+    }
+}
+
+public void createDatabase(){
+
+    Statement createStatement = null;        
+    ResultSet rs= null;
+    String sql="CREATE DATABASE oscar CHARACTER SET utf8 COLLATE utf8_hungarian_ci;";
+
+    try {
+        createStatement = connection.createStatement();
+    } catch (SQLException ex) {
+       System.out.println("Hiba a Statement létrehozásában!"+ ex);
     }
 
     if (createStatement!=null)
@@ -133,6 +166,27 @@ public void showTables()
         }
     }
 
+public void dropTable(){
+    Statement createStatement = null;        
+    ResultSet rs= null;
+    String sql="DROP TABLE IF EXISTS filmek;";
+
+    try {
+        createStatement = connection.createStatement();
+    } catch (SQLException ex) {
+       System.out.println("Hiba a Statement létrehozásában!"+ ex);
+    }
+
+    if (createStatement!=null)
+    {
+        try {
+            createStatement.execute(sql);                    
+                                
+        } catch (SQLException ex) {
+            System.out.println("Baj van! Hiba a Create-nél!"+ ex);
+        }
+    }
+}
 // public void addItem(String id, String name){    
 public void addItem(String movie){    
     if (connection!= null)
@@ -186,11 +240,11 @@ public boolean isDBExist(String databaseName){
                 // "azon";"cim";"ev";"dij";"jelol"
                 {
                     if(rs.getString(1).equals(databaseName)){
-                        System.out.println("A "+ databaseName + "adatbázis létezik");
+                        System.out.println("A "+ databaseName + " adatbázis létezik");
                         exists = true;
                     } 
 
-                    System.out.println(rs.getString(1));
+                    // System.out.println(rs.getString(1));
                 }
                 
             } catch (SQLException ex) {
@@ -230,11 +284,11 @@ public boolean isTableExist(String table){
                 // "azon";"cim";"ev";"dij";"jelol"
                 {
                     if(rs.getString(1).equals(tableName)){
-                        System.out.println("A "+ tableName + "tábla létezik");
+                        // System.out.println("A "+ tableName + " tábla létezik");
                         exists = true;
                     } 
 
-                    System.out.println(rs.getString(1));
+                    // System.out.println(rs.getString(1));
                 }
                 
             } catch (SQLException ex) {
@@ -244,6 +298,7 @@ public boolean isTableExist(String table){
     }
     return exists;
 }
+
 
 
 }

@@ -1,15 +1,17 @@
-# Oscar díjas filmek
-## Házi feladat Adatbázis-kezelés I. tantárgyhoz
-### SZOFT I/2/E
-Hozzon létre JDBC-s consolos java alkalmazást, amely Oscar-díjjal kitüntetett filmek adatait kezelő webalkalmazás előkészítését segíti.\
-A consolos alkalmazás kapcsolódjon a MySQL szerverhez és ha még nem létezik hozzon létre adatbázist amelyben az Oscar-díjjal kitüntetett filmeket kíván tárolni! Az adatbázis neve _**oscar**_ legyen!\
-Az adatbázis kódolását és alapértelmezett rendezését állítsa UTF-8, magyar kódolásra!\
-Ha az adatbázisban nem létezik a filmek tábla akkor hozza létre a táblát, melynek szerkezete a következő legyen:\
-* azon: a film azonosítója. Szöveg, Elsődleges kulcs (maximum 15 karakter)
-* cim: A film angol címe Pl.: Grand Prix Szöveg
-* ev: A díjazás éve Pl.: 1966 Egész szám
-* dij: Az elnyert díjak száma Pl.:3 Egész szám
-* jelol: A jelölések száma Pl.: 3 Egész szám
+# Oscar program a "SZOFT I/2/E-Adatbázis-kezelés I." tantárgyhoz.
 
-A táblába importálja a filmek.txt-ben található adatokat, a fájl elérési útvonalát és nevét parancssori argumentumból olvassa ki. (A fájl az oszlopfejléceket tartalmazza!)\
-A consolos alkalmazása értelmezze a parancssorban megadható --force vagy -f kapcsolót, melynek a hatására törölje ez adattábla tartalmát és importálja a megadott fájlban található filmek adatait.
+Az Oscar.jar program a **"SZOFT I/2/E-Adatbázis-kezelés I."** tantárgy házi feladatának készült.
+
+A program futtatásához egy forrás fájlra van szükség, amiből az **"oscar"** adatbázis **"filmek"** adattáblájába tölt adatokat.
+A program helyi (lokális) adatbázis kiszolgálóval működik.
+Ha az **"oscar"** adtbázis nem létiezik, akkor létrehozza.
+Ha a **"filmek"** adattábla létezik, akkor az _'-f'_ vagy _'--f'_ kapcsolókkal lehet töröltetni a létező táblát.
+
+A program futtatása:
+
+<code> java -jar Oscar.jar <forrás fáj> <-f vagy --f kapcsoló></code>
+
+Például:\
+<code>
+java -jar Oscar.jar filmek.txt\
+java -jar Oscar.jar filmek.txt -f
